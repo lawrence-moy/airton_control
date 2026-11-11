@@ -1,0 +1,95 @@
+menu "Airton AC"
+
+    config AC_DEVICE_ID
+        string "Identifiant / hostname"
+        default "airton-ac"
+
+    choice AC_WIFI_MODE
+        prompt "Mode WiFi"
+        default AC_WIFI_MODE_AP
+        help
+            Point d'accès : l'ESP32 crée son réseau (page web sur http://192.168.4.1/), 
+            Box : il rejoint votre WiFi (la page web est alors sur l'adresse donnée par votre box).
+            Les deux : réseau propre toujours disponible, et connexion à la box en plus.
+
+        config AC_WIFI_MODE_AP
+            bool "Point d'acces seul"
+        config AC_WIFI_MODE_STA
+            bool "Se connecte a votre box seulement"
+        config AC_WIFI_MODE_APSTA
+            bool "Point d'acces + connexion a la box"
+    endchoice
+
+    config AC_AP_SSID
+        string "Nom du point d'accès"
+        default "Airton-AC"
+
+    config AC_AP_PASS
+        string "Mot de passe du point d'accès (8 caractères minimum, vide = réseau ouvert)"
+        default "airton1234"
+        help
+            Changez-le : il est écrit dans le README.
+
+    config AC_AP_CHANNEL
+        int "Canal WiFi du point d'accès (1-13)"
+        range 1 13
+        default 1
+
+    config AC_WIFI_SSID
+        string "WiFi SSID (box)"
+        default "votre_ssid"
+
+    config AC_WIFI_PASS
+        string "WiFi mot de passe (box)"
+        default "votre_mot_de_passe"
+
+    config AC_TIMEZONE
+        string "Fuseau horaire (format POSIX TZ)"
+        default "CET-1CEST,M3.5.0,M10.5.0/3"
+
+    config AC_OTA_TOKEN
+        string "Jeton pour la mise à jour OTA (en-tête X-Token)"
+        default "changez-moi"
+        help
+            La mise à jour OTA HTTP est ouverte sur le réseau local : changez ce jeton.
+
+    choice AC_PROTO
+        prompt "Protocole série de la clim"
+        default AC_PROTO_AUTO
+        help
+            Détection automatique : l'ESP32 écoute les deux protocoles et se fixe sur le premier qui
+            produit une trame valide. "7A 7A" = module ACW02 (le plus probable pour le SMVH12B).
+            "Tuya 55 AA" = carte Tuya (par ex. SMVH24B).
+
+        config AC_PROTO_AUTO
+            bool "Detection automatique"
+        config AC_PROTO_ACW02
+            bool "Airton 7A 7A (module ACW02)"
+        config AC_PROTO_TUYA
+            bool "Tuya 55 AA"
+    endchoice
+
+    config AC_UART_RX_PIN
+        int "GPIO qui reçoit le TX de la clim"
+        default 35
+
+    config AC_UART_TX_PIN
+        int "GPIO qui émet vers le RX de la clim"
+        default 33
+
+    config AC_UART_BAUD
+        int "Débit UART"
+        default 9600
+
+    config AC_SWAP_TX_RX
+        bool "Inverser TX et RX"
+        default n
+        help
+            TX/RX sont souvent inversés par rapport aux couleurs des fils.
+
+    config AC_LOG_FRAMES
+        bool "Journaliser toutes les trames brutes (mode découverte)"
+        default y
+
+
+endmenu

@@ -1,0 +1,15 @@
+# ESP-IDF
+build/
+managed_components/
+dependencies.lock
+.cache/
+# Configuration locale (contient vos réglages : WiFi, jeton OTA, broches)
+sdkconfig
+sdkconfig.*
+!sdkconfig.defaults
+# Divers
+.vscode/
+.idea/
+*.bak
+__pycache__/
+*.pyc
