@@ -15,8 +15,7 @@ web qu'il sert lui-même, sans cloud ni application. Développé et testé sur u
 | Fonction | Statut sur SMVH12B |
 |---|---|
 | Lecture : température ambiante, marche/arrêt, mode, consigne, ventilation (niveaux, turbo, silence), volets, afficheur | validé sur la clim réelle |
-| Commande des volets (fixes / les deux) | validé |
-| Autres commandes (consigne, mode, ventilation, silence, afficheur, arrêt) | écrites d'après les scripts de la communauté, **pas encore testées** |
+| Commandes : marche/arrêt, consigne, mode, ventilation, silence, afficheur, volets | validées sur la clim réelle |
 | Pourcentage de ventilation, éco, sleep, °C/°F, auto-nettoyage | non trouvés dans les trames |
 | Codes d'erreur, demande de filtre | décodés (trame A6), jamais vus sur ma clim |
 | Protocole Tuya `55 AA` (autres modèles Airton) | parseur testé sur PC uniquement |
@@ -148,7 +147,7 @@ Les captures (CSV) sont les bienvenues en *issue*.
 
 ## Limites connues
 
-- Seules les lectures et la commande des volets ont été validées sur une clim réelle.
+- Les lectures et les commandes ont été validées sur une seule clim (SMVH12B) ; d'autres modèles Airton peuvent différer.
 - Le pourcentage de ventilation, l'éco, le sleep et les autres touches de la télécommande ne sont pas
   décodés. Des utilisateurs rapportent un bip à la première commande sur d'autres modèles.
 - Le protocole Tuya n'a jamais été essayé sur une vraie clim.

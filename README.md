@@ -15,8 +15,7 @@ serves itself, with no cloud and no app. Developed and tested on an **Airton SMV
 | Feature | Status on SMVH12B |
 |---|---|
 | Reading: room temperature, on/off, mode, setpoint, fan (levels, turbo, silent), louvers, display | validated on the real unit |
-| Louver control (fixed / both) | validated |
-| Other commands (setpoint, mode, fan, silent, display, off) | written from community scripts, **not tested yet** |
+| Commands: on/off, setpoint, mode, fan, silent, display, louvers | validated on the real unit |
 | Fan percentage, eco, sleep, °C/°F, self-clean | not found in the frames |
 | Error codes, filter-clean request | decoded (A6 frame), never seen on my unit |
 | Tuya `55 AA` protocol (other Airton models) | parser tested on PC only |
@@ -146,7 +145,7 @@ control key, export the CSV. The bytes that change show up in the journal. Captu
 
 ## Known limitations
 
-- Only reads and louver control have been validated on a real unit.
+- Reads and commands have been validated on a single unit (SMVH12B); other Airton models may differ.
 - Fan percentage, eco, sleep and the other remote keys are not decoded. Users report a beep on the first
   command on other models.
 - The Tuya protocol has never been tried on a real unit.

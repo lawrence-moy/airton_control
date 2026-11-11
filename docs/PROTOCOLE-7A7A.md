@@ -1,6 +1,6 @@
 # Protocole série « 7A 7A » des clims Airton (module ACW02)
 
-Notes de travail, état au 8 novembre 2026. Clim : Airton SMVH12B-2B2A3NM (unité intérieure réf. 409935).
+Notes de travail, état au 11 novembre 2026. Clim : Airton SMVH12B-2B2A3NM (unité intérieure réf. 409935).
 Niveau de confiance indiqué pour chaque point : **[confirmé]** vu sur la clim réelle, **[forum]** vu dans les captures
 ou scripts de la communauté (forum HACF, script Tasmota « Berryton »), **[hypothèse]** déduit, pas vérifié.
 
@@ -72,21 +72,22 @@ Remarques :
 - Ventilation : 1 → 2 → 3 → 4 → 5 → turbo → pourcentage → auto → silence → 1.
 - Chaque mode mémorise sa consigne et ses volets (auto 25 °C, froid 26, déshumidification 27, ventilation 18, chauffage 19 chez moi).
 
-## 4. Trame de commande A1 (24 octets, module → clim) **[forum + hypothèses, non testée]**
+## 4. Trame de commande A1 (24 octets, module → clim) **[validée sur la clim réelle]**
 
 `7A 7A 21 D5 18 00 00 A1 00 00 00 00 b12 b13 b14 b15 00 00 00 00 00 00 CRC_hi CRC_lo`
 
+Commandes validées sur la clim le 11 novembre 2026 : marche/arrêt, consigne, mode, ventilation, silence, afficheur, volets.
 Un octet de commande correspond à l'octet suivant de l'état (décalage d'un octet) :
 
 | Octet | Contenu |
 |---|---|
 | 12 | mode (bits 0-2) ; marche (bit 3, `08`) ; ventilation (bits 4-6). Arrêt : seulement la ventilation (mode et bit 3 à 0). Turbo : valeur 7 selon le forum, mais l'état renvoie niveau 5 + bit 7 |
-| 13 | consigne − 16 (bits 0-3) ; silence : bit 6 (hypothèse, d'après l'état) |
+| 13 | consigne − 16 (bits 0-3) ; silence : bit 6 |
 | 14 | volets, valeur brute rapportée par la clim (`00`, `01`, `10`, `11`). La table du forum (0 à 13) ne correspond pas à cette clim |
-| 15 | mot de configuration : le forum met toujours `98` ; le firmware envoie `18` + bit 7 si l'afficheur doit être allumé (hypothèse) |
+| 15 | mot de configuration : le forum met toujours `98` ; le firmware envoie `18` + bit 7 si l'afficheur doit être allumé |
 | 16-21 | `00` |
 
-Exemple calculé (non envoyé à la clim) : froid, ventilation 3, 24 °C, volets fixes, afficheur allumé :
+Exemple (construit par le firmware, test sur PC) : froid, ventilation 3, 24 °C, volets fixes, afficheur allumé :
 octets 12 à 15 = `39 08 00 98`.
 
 Le premier bip sonore survient sur la première commande reçue (rapporté sur le forum, non reproduit ici).
@@ -97,7 +98,7 @@ Le premier bip sonore survient sur la première commande reçue (rapporté sur l
 - Octets 12, 17-20 de l'état (toujours à 0 jusqu'ici), octets 23-24.
 - Touches non testées : éco, sleep, °C/°F, auto-nettoyage (la télécommande en a peut-être).
 - Trames A5 et AC : rôle des octets.
-- Validation des commandes sur la clim : consigne d'abord, puis mode, ventilation, volets, afficheur, silence, arrêt.
+- Pas encore testés séparément : turbo par commande (valeur 7) et pourcentage de ventilation ; codes d'erreur et filtre jamais vus non nuls ; autres modèles Airton.
 
 ## 6. Différences avec ce qu'on trouve en ligne
 
